@@ -12,7 +12,7 @@ class PandaDb():
         elif filetype == "csv":
             self.transactions = pd.read_csv(filepath, sheet)
 
-    def export(self, export_filepath):
+    def update(self, export_filepath):
         if self.filetype == "xlsx":
             self.transactions.to_excel(export_filepath)
         elif self.filetype == "csv":
@@ -21,6 +21,7 @@ class PandaDb():
     def categorize_list(self):
         for i in range(len(self.transactions)):
             self.transactions.at[i,"Kategori"] = categorize(self.transactions["Meddelande"][i])
-        self.export(self.filepath)
+        self.update(self.filepath)
 
-    
+    def export(self, destination):
+        pass
