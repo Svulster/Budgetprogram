@@ -5,7 +5,7 @@ sheet = 0
 
 categories = pd.read_excel(filepath, sheet).drop(columns="Unnamed: 0")
 
-def categorize(transaction_name): #pandas version
+def categorize(transaction_name):
     if categories["Hyra"].eq(transaction_name).any():
         return "Hyra"
     elif categories["Lön"].eq(transaction_name).any():
@@ -38,10 +38,11 @@ def categorize(transaction_name): #pandas version
 def update_category(transaction_name):
     print(transaction_name)
     cat = input("Ange kategori: ")
-
-    for i in range(len(categories[cat])):
-        if pd.isna(categories.at[i,cat]):
-            categories.at[i, cat] = transaction_name
-            break
-    
+    if cat:
+        for i in range(len(categories[cat])):
+            if pd.isna(categories.at[i,cat]):
+                categories.at[i, cat] = transaction_name
+                break
+    else:
+        pass
     categories.to_excel(filepath)
