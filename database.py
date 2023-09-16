@@ -12,16 +12,22 @@ class PandaDb():
         elif filetype == "csv":
             self.transactions = pd.read_csv(filepath, sheet)
 
-    def update_list(self, export_filepath):
+    def save_list(self, export_filepath):
+        # Saves the current file.
         if self.filetype == "xlsx":
             self.transactions.to_excel(export_filepath)
         elif self.filetype == "csv":
             self.transactions.to_csv(export_filepath)
 
     def categorize_list(self):
+        # Automatically changes the category value of all transactions in the list.
         for i in range(len(self.transactions)):
             self.transactions.at[i,"Kategori"] = categorize(self.transactions["Meddelande"][i])
-        self.update_list(self.filepath)
+        self.save_list(self.filepath)
 
-    def export(self, destination):
+    def change_category(self):
+        # Changes the category value for a single transaction in the list. This will not update the categories database and will not effect the automatic categorization.
+        pass
+
+    def export(self, destination_filepath):
         pass
