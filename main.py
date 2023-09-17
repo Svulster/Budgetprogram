@@ -4,10 +4,9 @@ from GUI import App
 from importer import * 
 
 check_import_folder()
-imported_list = import_file()
+import_all()
 
-#imported_list = PandaDb("database/Kontoutdrag_exempel.xlsx")
-update_categories_database(imported_list)
+imported_databases[0].change_category_all()
 
 #if __name__ == "__main__":
 #    app = App()
