@@ -9,7 +9,7 @@ class PandaDb():
         self.account = account
 
         if filetype == "xlsx":
-            self.transactions = pd.read_excel(filepath, sheet).drop(columns="Unnamed: 0")
+            self.transactions = pd.read_excel(filepath, sheet)#.drop(columns="Unnamed: 0")
         elif filetype == "csv":
             self.transactions = pd.read_csv(filepath, sheet)
 
@@ -30,7 +30,7 @@ class PandaDb():
         # Loops through the list and changes the category value for a each transaction in the list. This will not update the categories database and will not effect the automatic categorization.
         for i in range(len(self.transactions)):
             if self.transactions.at[i,"Kategori"] == "Okategoriserad":
-                print(self.transactions.at[i,"Datum"] + " " + self.transactions.at[i,"Meddelande"] + " " + self.transactions.at[i,"Belopp"])
+                print(str(self.transactions.at[i,"Datum"]) + " " + self.transactions.at[i,"Meddelande"] + " " + self.transactions.at[i,"Belopp"])
                 reply = input("Ändra kategori: ")
                 if reply:
                     self.transactions.at[i,"Kategori"] = reply

@@ -58,16 +58,33 @@ class App(ctk.CTk):
         self.transactions_scrollable.grid_columnconfigure(0,weight=1)
 
     def import_window(self):
-        pass
+        import_win = ctk.CTkToplevel()
+        import_win.wm_title("Import")
+        import_btn = ctk.CTkButton(import_win, text="Import", command=lambda:[import_win.destroy, self.popup_success("Import")])
+        import_btn.pack()
 
     def export_window(self):
-        pass
+        export_win = ctk.CTkToplevel()
+        export_win.wm_title("Export")
 
     def upload_window(self):
-        pass
+        upload_win = ctk.CTkToplevel()
+        upload_win.wm_title("Upload")
 
     def settings_window(self):
-        pass
+        settings_win = ctk.CTkToplevel()
+        settings_win.wm_title("Settings")
+
+    def popup_success(self, action):
+        popup = ctk.CTkToplevel()
+        popup.wm_title(action)
+        popup_frame = ctk.CTkFrame(popup, width=100, height=75)
+        popup_frame.pack()
+        popup_lbl = ctk.CTkLabel(popup_frame, text=f"{action} successful!")
+        popup_lbl.pack()
+        popup_btn = ctk.CTkButton(popup_frame, text="OK", command=popup.destroy)
+        popup_btn.pack()
+
 
 if __name__ == "__main__":
     app = App()

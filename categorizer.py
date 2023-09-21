@@ -39,6 +39,8 @@ def categorize(transaction_name):
         return "Nöje"
     elif categories["Övriga inkomster"].eq(transaction_name).any():
         return "Övriga inkomster"
+    elif categories["Hobby"].eq(transaction_name).any():
+        return "Hobby"
     else:
         return "Okategoriserad"
     
@@ -60,7 +62,7 @@ def update_categories_database(database):
     print("Updating the category database.")
     for i in range(len(database.transactions)):
         if database.transactions.at[i,"Kategori"] == "Okategoriserad":
-            print(database.transactions.at[i,"Datum"] + " " + database.transactions.at[i,"Meddelande"] + " " + database.transactions.at[i,"Belopp"])
+            print(f"{database.transactions.at[i,'Datum']} {database.transactions.at[i,'Meddelande']} {database.transactions.at[i,'Belopp']}")
             reply = input("Update category database? ")
             if reply:
                 update_category(database.transactions.at[i,"Meddelande"], reply)
