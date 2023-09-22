@@ -46,12 +46,15 @@ def categorize(transaction_name):
     
 def update_category(transaction_name, cat):
     # Updates the categories database with the name of a single transaction
-    #print(transaction_name)
-    #cat = input("Ange kategori: ")
-    if cat:
-        for i in range(len(categories[cat])):                           # How to append a value to the column if no cells are empty?
+    if cat in categories.columns:
+        counter = 0
+        for i in range(len(categories[cat])):  
+            counter += 1                         # How to append a value to the column if no cells are empty?
             if pd.isna(categories.at[i,cat]):
                 categories.at[i, cat] = transaction_name
+                break
+            elif counter == len(categories[cat]):
+                categories.at[counter, cat] = transaction_name
                 break
     else:
         pass

@@ -9,7 +9,9 @@ class PandaDb():
         self.account = account
 
         if filetype == "xlsx":
-            self.transactions = pd.read_excel(filepath, sheet)#.drop(columns="Unnamed: 0")
+            self.transactions = pd.read_excel(filepath, sheet)
+            if "Unnamed: 0" in self.transactions.columns:
+                self.transactions.drop(columns="Unnamed: 0", axis=1, inplace=True)                
         elif filetype == "csv":
             self.transactions = pd.read_csv(filepath, sheet)
 
