@@ -7,11 +7,11 @@ class PandaDb():
         self.sheet = sheet
         self.filetype = filetype
 
-        if filetype == "xlsx":
+        if filepath.endswith("xlsx"):
             self.transactions = pd.read_excel(filepath, sheet)
             if "Unnamed: 0" in self.transactions.columns:
                 self.transactions.drop(columns="Unnamed: 0", axis=1, inplace=True)                
-        elif filetype == "csv":
+        elif filepath.endswith("csv"):
             self.transactions = pd.read_csv(filepath, sheet)
 
     def __add__(self, dataframe2):

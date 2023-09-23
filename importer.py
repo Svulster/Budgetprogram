@@ -11,7 +11,8 @@ imported_databases = []
 def check_import_folder():
 	for file in os.listdir(import_folder):
 		if file.endswith(".xlsx") or file.endswith(".csv"):
-			files.append(file)
+			if not file.startswith("merged"):
+				files.append(file)
 	return files
 
 def import_file(i):
@@ -29,5 +30,5 @@ def merge_all():														#Add possibility to append to an already existing 
 	for file in range(len(imported_databases)):
 		dataframes.append(imported_databases[file].transactions)
 	dataframe = pd.concat(dataframes)
-	dataframe.sort_values(by=["Datum"], inplace=True)
+	dataframe.sort_values(by=["Datum"], inplace=True, ascending=False)
 	dataframe.to_excel(f"{import_folder}merged.xlsx")
