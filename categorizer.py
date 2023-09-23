@@ -5,7 +5,7 @@ sheet = 0
 
 categories = pd.read_excel(filepath, sheet).drop(columns="Unnamed: 0")
 
-def categorize(transaction_name):
+def categorize(transaction_name):       # Update the code to make it only read column values from the categories.xlsx file.
     # Retrieves tha category value corresponding to given transaction name.
     if categories["Hyra"].eq(transaction_name).any():
         return "Hyra"

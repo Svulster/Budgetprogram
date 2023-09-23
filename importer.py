@@ -23,10 +23,11 @@ def import_all():
 	for file in range(len(files)):
 		imported_databases.append(PandaDb(import_folder + files[file]))
 
-def export_all():														#Add possibility to append to an already existing export file. Check for, and avoid adding, duplicates.
+def merge_all():														#Add possibility to append to an already existing export file. Check for, and avoid adding, duplicates.
 	#combine imported databases into one, place in the export folder			
 	dataframes = []
 	for file in range(len(imported_databases)):
 		dataframes.append(imported_databases[file].transactions)
 	dataframe = pd.concat(dataframes)
-	dataframe.to_excel(f"{export_folder}export.xlsx")
+	dataframe.sort_values(by=["Datum"], inplace=True)
+	dataframe.to_excel(f"{import_folder}merged.xlsx")

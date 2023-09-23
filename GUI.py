@@ -1,6 +1,6 @@
 import customtkinter as ctk
 import tkinter as tk
-import tkinter.messagebox
+from importer import *
 
 ctk.set_appearance_mode("Dark")
 ctk.set_default_color_theme("blue")
@@ -24,14 +24,16 @@ class App(ctk.CTk):
         self.sidebar_frame.rowconfigure(4, weight=1)
         self.logo_label = ctk.CTkLabel(self.sidebar_frame,text="Menu",font=ctk.CTkFont(size=20, weight="bold"))
         self.logo_label.grid(row=0, column=0, padx=20, pady=(20, 10))
-        self.sidebar_button1 = ctk.CTkButton(self.sidebar_frame, text="Import", command=self.import_window)
+        self.sidebar_button1 = ctk.CTkButton(self.sidebar_frame, text="Import", command=lambda:[import_all(), self.popup_files("import", len(files))])
         self.sidebar_button1.grid(row=1, column=0, padx=20, pady=10)
-        self.sidebar_button2 = ctk.CTkButton(self.sidebar_frame, text="Export", command=self.export_window)
-        self.sidebar_button2.grid(row=2, column=0, padx=20, pady=10)
+        self.sidebar_button1 = ctk.CTkButton(self.sidebar_frame, text="Merge", command=lambda:[merge_all(), self.popup_files("merge", len(files))])
+        self.sidebar_button1.grid(row=2, column=0, padx=20, pady=10)
+        self.sidebar_button2 = ctk.CTkButton(self.sidebar_frame, text="Export", command=lambda:[self.popup_success("Export")])
+        self.sidebar_button2.grid(row=3, column=0, padx=20, pady=10)
         self.sidebar_button3 = ctk.CTkButton(self.sidebar_frame, text="Upload", command=self.upload_window)
-        self.sidebar_button3.grid(row=3, column=0, padx=20, pady=10)
+        self.sidebar_button3.grid(row=4, column=0, padx=20, pady=10)
         self.sidebar_button4 = ctk.CTkButton(self.sidebar_frame, text="Settings", command=self.settings_window)
-        self.sidebar_button4.grid(row=4, column=0, padx=20, pady=10, sticky="s")
+        self.sidebar_button4.grid(row=5, column=0, padx=20, pady=10, sticky="s")
 
         # Setup overview frame
         self.overview_frame = ctk.CTkFrame(self, height=400, corner_radius=5)
@@ -57,16 +59,6 @@ class App(ctk.CTk):
         self.transactions_scrollable.grid(row=2,column=0,padx=10,pady=10, sticky="nsew")
         self.transactions_scrollable.grid_columnconfigure(0,weight=1)
 
-    def import_window(self):
-        import_win = ctk.CTkToplevel()
-        import_win.wm_title("Import")
-        import_btn = ctk.CTkButton(import_win, text="Import", command=lambda:[import_win.destroy, self.popup_success("Import")])
-        import_btn.pack()
-
-    def export_window(self):
-        export_win = ctk.CTkToplevel()
-        export_win.wm_title("Export")
-
     def upload_window(self):
         upload_win = ctk.CTkToplevel()
         upload_win.wm_title("Upload")
@@ -75,14 +67,26 @@ class App(ctk.CTk):
         settings_win = ctk.CTkToplevel()
         settings_win.wm_title("Settings")
 
+    def popup_files(self, action, no_files):
+        popup = ctk.CTkToplevel()
+        popup.wm_title(action)
+        popup.geometry(f"{250}x{75}")
+        if no_files == 1:
+            popup_lbl = ctk.CTkLabel(popup, text=f"1 file {action}ed successfully!")
+            popup_lbl.pack()
+        else:
+            popup_lbl = ctk.CTkLabel(popup, text=f"{no_files} files {action}ed successfully!")
+            popup_lbl.pack()
+        popup_btn = ctk.CTkButton(popup, text="OK", command=popup.destroy)
+        popup_btn.pack()
+
     def popup_success(self, action):
         popup = ctk.CTkToplevel()
         popup.wm_title(action)
-        popup_frame = ctk.CTkFrame(popup, width=100, height=75)
-        popup_frame.pack()
-        popup_lbl = ctk.CTkLabel(popup_frame, text=f"{action} successful!")
+        popup.geometry(f"{250}x{75}")
+        popup_lbl = ctk.CTkLabel(popup, text=f"{action} successful!")
         popup_lbl.pack()
-        popup_btn = ctk.CTkButton(popup_frame, text="OK", command=popup.destroy)
+        popup_btn = ctk.CTkButton(popup, text="OK", command=popup.destroy)
         popup_btn.pack()
 
 

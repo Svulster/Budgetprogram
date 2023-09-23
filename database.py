@@ -46,11 +46,3 @@ class PandaDb():
     def sort_list(self):
         self.transactions.sort_values(by=["Datum"], inplace=True)
         self.save_list(self.filepath)
-
-    def export(self, destination_filepath):
-        # Exports the current file to a new excel file.
-        pass
-
-    def upload(self):
-        # Uploads the current file to google sheets.
-        pass
