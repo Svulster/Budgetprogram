@@ -42,7 +42,7 @@ class App(ctk.CTk):
         self.overview_frame.columnconfigure(1, weight=1)
         self.overview_label = ctk.CTkLabel(self.overview_frame,text="Yearly overview", font=ctk.CTkFont(size=14, weight="bold"))
         self.overview_label.grid(row=0, padx=20, pady=10)
-        self.overview_option = ctk.CTkOptionMenu(self.overview_frame, dynamic_resizing=False, values=["2023"])
+        self.overview_option = ctk.CTkOptionMenu(self.overview_frame, dynamic_resizing=False, values=["2023"]) # Add function to determine what years are registred.
         self.overview_option.grid(row=0, column=1, sticky="e")
 
         # Setup transactions frame
