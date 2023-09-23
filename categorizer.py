@@ -68,7 +68,10 @@ def update_categories_database(database):
             print(f"{database.transactions.at[i,'Datum']} {database.transactions.at[i,'Meddelande']} {database.transactions.at[i,'Belopp']}")
             reply = input("Update category database? ")
             if reply:
-                update_category(database.transactions.at[i,"Meddelande"], reply)
-                database.categorize_list()
+                if reply == "exit":
+                    break
+                else:
+                    update_category(database.transactions.at[i,"Meddelande"], reply)
+                    database.categorize_list()
             else:
                 pass

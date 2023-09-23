@@ -2,11 +2,10 @@ import pandas as pd
 from categorizer import *
 
 class PandaDb():
-    def __init__(self, filepath, sheet = 0, filetype = "xlsx", account = "ICA"):
+    def __init__(self, filepath, sheet = 0, filetype = "xlsx"):
         self.filepath = filepath
         self.sheet = sheet
         self.filetype = filetype
-        self.account = account
 
         if filetype == "xlsx":
             self.transactions = pd.read_excel(filepath, sheet)
@@ -14,6 +13,10 @@ class PandaDb():
                 self.transactions.drop(columns="Unnamed: 0", axis=1, inplace=True)                
         elif filetype == "csv":
             self.transactions = pd.read_csv(filepath, sheet)
+
+    def __add__(self, dataframe2):
+        dataframes = [self.transactions, dataframe2.transactions]
+        return PandaDb(pd.concat(dataframes))
 
     def save_list(self, export_filepath):
         # Saves the current file.
@@ -32,12 +35,16 @@ class PandaDb():
         # Loops through the list and changes the category value for a each transaction in the list. This will not update the categories database and will not effect the automatic categorization.
         for i in range(len(self.transactions)):
             if self.transactions.at[i,"Kategori"] == "Okategoriserad":
-                print(str(self.transactions.at[i,"Datum"]) + " " + self.transactions.at[i,"Meddelande"] + " " + self.transactions.at[i,"Belopp"])
+                print(str(self.transactions.at[i,"Datum"]) + " " + self.transactions.at[i,"Meddelande"] + " " + str(self.transactions.at[i,"Belopp"]))
                 reply = input("Ändra kategori: ")
                 if reply:
                     self.transactions.at[i,"Kategori"] = reply
             else:
                 pass
+        self.save_list(self.filepath)
+
+    def sort_list(self):
+        self.transactions.sort_values(by=["Datum"], inplace=True)
         self.save_list(self.filepath)
 
     def export(self, destination_filepath):
