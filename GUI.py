@@ -1,9 +1,15 @@
 import customtkinter as ctk
-import tkinter as tk
 from importer import *
+from settings import *
 
-ctk.set_appearance_mode("Dark")
-ctk.set_default_color_theme("blue")
+settings = App_Settings()
+settings.load("./database/settings.pickle")
+
+settings.settings_appearance_mode("Dark")
+settings.save(f"{settings.database_folder}settings.pickle")
+
+ctk.set_appearance_mode(settings.appearance_mode)
+ctk.set_default_color_theme(settings.color_theme)
 
 class App(ctk.CTk):
     def __init__(self):
@@ -26,14 +32,12 @@ class App(ctk.CTk):
         self.logo_label.grid(row=0, column=0, padx=20, pady=(20, 10))
         self.sidebar_button1 = ctk.CTkButton(self.sidebar_frame, text="Import", command=lambda:[import_all(), self.popup_files("import", len(files))])
         self.sidebar_button1.grid(row=1, column=0, padx=20, pady=10)
-        self.sidebar_button1 = ctk.CTkButton(self.sidebar_frame, text="Merge", command=lambda:[merge_all(), self.popup_files("merge", len(files))])
-        self.sidebar_button1.grid(row=2, column=0, padx=20, pady=10)
         self.sidebar_button2 = ctk.CTkButton(self.sidebar_frame, text="Export", command=lambda:[self.popup_success("Export")])
-        self.sidebar_button2.grid(row=3, column=0, padx=20, pady=10)
+        self.sidebar_button2.grid(row=2, column=0, padx=20, pady=10)
         self.sidebar_button3 = ctk.CTkButton(self.sidebar_frame, text="Upload", command=self.upload_window)
-        self.sidebar_button3.grid(row=4, column=0, padx=20, pady=10)
+        self.sidebar_button3.grid(row=3, column=0, padx=20, pady=10)
         self.sidebar_button4 = ctk.CTkButton(self.sidebar_frame, text="Settings", command=self.settings_window)
-        self.sidebar_button4.grid(row=5, column=0, padx=20, pady=10, sticky="s")
+        self.sidebar_button4.grid(row=4, column=0, padx=20, pady=10, sticky="s")
 
         # Setup overview frame
         self.overview_frame = ctk.CTkFrame(self, height=400, corner_radius=5)
