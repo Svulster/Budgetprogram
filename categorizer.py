@@ -4,45 +4,21 @@ filepath = "database/categories.xlsx"
 sheet = 0
 
 categories = pd.read_excel(filepath, sheet).drop(columns="Unnamed: 0")
+category_list = []
 
-def categorize(transaction_name):       # Update the code to make it only read column values from the categories.xlsx file.
+
+def categorize(transaction_name):
     # Retrieves tha category value corresponding to given transaction name.
-    if categories["Hyra"].eq(transaction_name).any():
-        return "Hyra"
-    elif categories["Lön"].eq(transaction_name).any():
-        return "Lön"
-    elif categories["Bidrag"].eq(transaction_name).any():
-        return "Bidrag"
-    elif categories["Sparande"].eq(transaction_name).any():
-        return "Sparande"
-    elif categories["Försäkring"].eq(transaction_name).any():
-        return "Försäkring"
-    elif categories["Överföringar"].eq(transaction_name).any():
-        return "Intern överföring"
-    elif categories["Mat"].eq(transaction_name).any():
-        return "Mat"
-    elif categories["Mat ute"].eq(transaction_name).any():
-        return "Mat ute"
-    elif categories["Hem"].eq(transaction_name).any():
-        return "Hem"
-    elif categories["Transport"].eq(transaction_name).any():
-        return "Transport"
-    elif categories["Abonnemang"].eq(transaction_name).any():
-        return "Abonnemang"
-    elif categories["Kläder"].eq(transaction_name).any():
-        return "Kläder"
-    elif categories["Barn"].eq(transaction_name).any():
-        return "Barn"
-    elif categories["Hälsa"].eq(transaction_name).any():
-        return "Hälsa"
-    elif categories["Nöje"].eq(transaction_name).any():
-        return "Nöje"
-    elif categories["Övriga inkomster"].eq(transaction_name).any():
-        return "Övriga inkomster"
-    elif categories["Hobby"].eq(transaction_name).any():
-        return "Hobby"
-    else:
-        return "Okategoriserad"
+    number_of_columns=len(categories.columns)
+    counter = 0
+    for col in categories.columns:
+        if counter == number_of_columns-1:
+            return "Okategoriserad"
+        elif categories[col].eq(transaction_name).any():
+            return col
+        else:
+            counter += 1
+
     
 def update_category(transaction_name, cat):
     # Updates the categories database with the name of a single transaction
